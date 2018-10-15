@@ -100,7 +100,7 @@
 
 %food_str($food) {
   dontcare : "if you don't care about the food";
-  "sea food" : "searving sea food";
+  "sea food" : "serving sea food";
   "comfort food" : "serving comfort food";
   $food : "serving $food food";
 }
@@ -108,13 +108,14 @@
 %name_str($name) {
   $name : "other than $name";
 }
+
 %signature_str($signature) {
   $signature : "its signature is $signature";
 }
 
 %area_str($area) {
   dontcare : "in all parts of town";
-  $area : "in the area of $area";
+  $area : "in the $area area";
 }
 
 %near_str($near) {
@@ -594,11 +595,11 @@ inform(name=none,type=$U,$Y=$O,$Z=$P,$W=$R,$Q=$T,$G=$H,$B=$D) : "I am sorry but 
 
 
 inform(name=none,$Y=$O) : "I am sorry but there is no place %$Y_str($O).";
-inform(name=none,$Y=$O,$Z=$P) : "I am sorry but there is no place, %$Y_str($O) and %$Z_str($P).";
-inform(name=none,$Y=$O,$Z=$P,$W=$R) : "I am sorry but there is no place, %$Y_str($O), %$Z_str($P) and %$W_str($R).";
-inform(name=none,$Y=$O,$Z=$P,$W=$R,$Q=$T) : "I am sorry but there is no place, %$Y_str($O), %$Z_str($P), %$W_str($R) and %$Q_str($T).";
-inform(name=none,$Y=$O,$Z=$P,$W=$R,$Q=$T,$G=$H) : "I am sorry but there is no place, %$Y_str($O), %$Z_str($P), %$W_str($R), %$Q_str($T) and %$G_str($H).";
-inform(name=none,$Y=$O,$Z=$P,$W=$R,$Q=$T,$G=$H,$B=$D) : "I am sorry but there is no place, %$Y_str($O), %$Z_str($P), %$W_str($R), %$Q_str($T), %$G_str($H) and %$B_str($D).";
+inform(name=none,$Y=$O,$Z=$P) : "I am sorry but there is no place %$Y_str($O) and %$Z_str($P).";
+inform(name=none,$Y=$O,$Z=$P,$W=$R) : "I am sorry but there is no place %$Y_str($O), %$Z_str($P) and %$W_str($R).";
+inform(name=none,$Y=$O,$Z=$P,$W=$R,$Q=$T) : "I am sorry but there is no place %$Y_str($O), %$Z_str($P), %$W_str($R) and %$Q_str($T).";
+inform(name=none,$Y=$O,$Z=$P,$W=$R,$Q=$T,$G=$H) : "I am sorry but there is no place %$Y_str($O), %$Z_str($P), %$W_str($R), %$Q_str($T) and %$G_str($H).";
+inform(name=none,$Y=$O,$Z=$P,$W=$R,$Q=$T,$G=$H,$B=$D) : "I am sorry but there is no place %$Y_str($O), %$Z_str($P), %$W_str($R), %$Q_str($T), %$G_str($H) and %$B_str($D).";
 
 
 inform(name=$X,type=$U) : "$X is a $U.";
