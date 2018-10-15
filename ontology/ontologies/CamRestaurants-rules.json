@@ -9,7 +9,8 @@
         "pricerange", 
         "postcode", 
         "signature", 
-        "description"
+        "description",
+        "dogsallowed"
     ], 
     "discourseAct": [
         "ack", 

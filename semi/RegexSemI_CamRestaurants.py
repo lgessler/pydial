@@ -74,6 +74,7 @@ class RegexSemI_CamRestaurants(RegexSemI.RegexSemI):
         self.slot_vocab["phone"] = "(phone(\ number)*|number|phone)"
         self.slot_vocab["postcode"] = "(postcode|post\ code)"
         self.slot_vocab["signature"] = "(signature)"
+        self.slot_vocab["dogsallowed"] = "(dogs)"
         self.slot_vocab["description"] = "(description)"
         self.slot_vocab["name"] = "(name)"
         #---------------------------------------------------------------------------------------------------
@@ -102,6 +103,7 @@ class RegexSemI_CamRestaurants(RegexSemI.RegexSemI):
         self.request_regex["postcode"] += "|(postcode)|(post\ code)|(zip\ code)"
         self.request_regex["addr"] += "|(address)"
         self.request_regex["signature"] += "|(signature)|(best\ dish)|(specialty)|(recipe)"
+        self.request_regex["dogsallowed"] += "|(dog)|(canine)|(pets?)"
         self.request_regex["description"] += "|(description)|(more\ information)|(more\ details)|(describe)"
 
     def _set_inform_regex(self):
