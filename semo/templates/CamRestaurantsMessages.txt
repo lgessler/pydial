@@ -29,71 +29,73 @@
     acceptscreditcards : "What is your preference as to whether it accepts credit cards";
 }
 %description_inf($description) {
-  $description : "it is described as $description";
+  $description : "is described as $description";
 }
+
 %signature_inf($signature) {
-  $signature : "the signature is $signature";
+  $signature : "is known for $signature";
 }
+
 %food_inf($food) {
-  "sea food" : "it serves sea food";
-  "comfort food" : "it serves comfort food";
-  $food : "it serves $food food";
+  "sea food" : "serves sea food";
+  "comfort food" : "serves comfort food";
+  $food : "serves $food food";
 }
 
 %area_inf($area) {
-  centre : "it is in the centre of town";
-  north : "it is in the north part of town";
-  south : "it is in the south part of town";
-  east : "it is in the east part of town";
-  west : "it is in the west part of town";
-  "<EMPH>centre</EMPH>" : "it is in the <EMPH>centre</EMPH> of town";
-  "<EMPH>north</EMPH>" : "it is in the <EMPH>north</EMPH> part of town";
-  "<EMPH>south</EMPH>" : "it is in the <EMPH>south</EMPH> part of town";
-  "<EMPH>east</EMPH>" : "it is in the <EMPH>east</EMPH> part of town";
-  "<EMPH>west</EMPH>" : "it is in the <EMPH>west</EMPH> part of town";
-  $area : "it is in the area of $area";
+  centre : "is in the centre of town";
+  north : "is in the north part of town";
+  south : "is in the south part of town";
+  east : "is in the east part of town";
+  west : "is in the west part of town";
+  "<EMPH>centre</EMPH>" : "is in the <EMPH>centre</EMPH> of town";
+  "<EMPH>north</EMPH>" : "is in the <EMPH>north</EMPH> part of town";
+  "<EMPH>south</EMPH>" : "is in the <EMPH>south</EMPH> part of town";
+  "<EMPH>east</EMPH>" : "is in the <EMPH>east</EMPH> part of town";
+  "<EMPH>west</EMPH>" : "is in the <EMPH>west</EMPH> part of town";
+  $area : "is in the area of $area";
 }
 
 %near_inf($near) {
-    $near : "it is near $near";
+    $near : "is near $near";
 }
 
 %allowedforkids_inf($allowedforkids) {
-  1: "where children are allowed";
-  false: "where no children are allowed";
-  none : "I don't know if it allows children";
+  1: "allows children";
+  false: "does not allow children";
+  none : "might not allow children";
 }
 
 %dogsallowed_inf($dogsallowed) {
-  1: "where dogs are allowed";
-  false: "where no dogs are allowed";
-  none : "I don't know if it allows dogs";
+  1: "allows dogs";
+  false: "does not allow dogs";
+  none : "might not allow dogs";
 }
 
 %hasinternet_inf($hasinternet) {
-  1: "it has internet";
-  false: "it doesn't have internet";
-  none : "I don't know if it has interent";
+  1: "has internet";
+  false: "doesn't have internet";
+  none : "might not have interent";
 }
 
 %acceptscreditcards_inf($acceptscreditcards) {
-  1: "it accepts credit cards";
-  false: "it doesn't accept credit cards";
-  none : "I don't know if it accepts credit cards";
+  1: "accepts credit cards";
+  false: "doesn't accept credit cards";
+  none : "$name might not accept credit cards";
 }
 
 %goodformeal_inf($goodformeal) {
-  $goodformeal : "it is good for $goodformeal";
+  $goodformeal : "is good for $goodformeal";
 }
 
 %goodforgroups_inf($goodforgroups){
-    1    : "it is good for groups";
-    false : "it is not good for groups";
-    none : "I don't know if it is good for groups";
+    1    : "is good for groups";
+    false : "is not good for groups";
+    none : "might not be good for groups";
 }
 
 %pricerange_inf($price) {
-  $price : "it is in the $price price range";
+  $price : "is in the $price price range";
 }
 
 %food_str($food) {
@@ -255,25 +257,24 @@
 }
 
 %addr_inf($addr) {
-  none : "I don't know their address";	
-  $addr : "Their address is $addr";
+  none : "does not have an up-to-date address";	
+  $addr : "is located at $addr";
 }
 
 %phone_inf($phone) {
-  none : "I don't know their phone number";	
-  $phone : "Their phone number is $phone";
+  none : "does not have an up-to-date phone number";	
+  $phone : "can be reached at $phone";
 }
 
 %postcode_inf($postcode) {
-  none : "I don't know their post code";	
-  $postcode : "Their postcode is $postcode";
+  none : "does not have an up-to-date postcode";	
+  $postcode : "is in postcode $postcode";
 }
 
 %price_inf($price) {
-  none : "I don't know their prices";	
-  $price : "Their prices are $price";
+  none : "serves food at unknown prices";	
+  $price : "serves $price food";
 }
-
 
 %addr_phone_str($addr, $phone) {
   none, none : "I don't know their address or phone number";
@@ -600,24 +601,24 @@ inform(name=none,$Y=$O,$Z=$P,$W=$R,$Q=$T,$G=$H) : "I am sorry but there is no pl
 inform(name=none,$Y=$O,$Z=$P,$W=$R,$Q=$T,$G=$H,$B=$D) : "I am sorry but there is no place, %$Y_str($O), %$Z_str($P), %$W_str($R), %$Q_str($T), %$G_str($H) and %$B_str($D).";
 
 
-inform(name=$X,type=$U) : "$X is a nice $U.";
-inform(name=$X,type=$U,$Y=$O) : "$X is a nice $U %$Y_inf($O).";
-inform(name=$X,type=$U,$Y=$O,$Z=$P) : "$X is a nice $U, %$Y_inf($O) and %$Z_inf($P).";
-inform(name=$X,type=$U,$Y=$O,$Z=$P,$W=$R) : "$X is a nice $U, %$Y_inf($O), %$Z_inf($P) and %$W_inf($R).";
-inform(name=$X,type=$U,$Y=$O,$Z=$P,$W=$R,$Q=$T) : "$X is a nice $U, %$Y_inf($O), %$Z_inf($P), %$W_inf($R) and %$Q_inf($T).";
-inform(name=$X,type=$U,$Y=$O,$Z=$P,$W=$R,$Q=$T,$G=$H) : "$X is a nice $U, %$Y_inf($O), %$Z_inf($P), %$W_inf($R), %$Q_inf($T) and %$G_inf($H).";
-inform(name=$X,type=$U,$Y=$O,$Z=$P,$W=$R,$Q=$T,$G=$H,$B=$D) : "$X is a nice $U, %$Y_inf($O), %$Z_inf($P), %$W_inf($R), %$Q_inf($T), %$G_inf($H) and %$B_inf($D).";
-inform(name=$X,type=$U,$Y=$O,$Z=$P,$W=$R,$Q=$T,$G=$H,$B=$D,$F=$C) : "$X is a nice $U, %$Y_inf($O), %$Z_inf($P), %$W_inf($R), %$Q_inf($T), %$G_inf($H) %$B_inf($D) and %$C_inf($F).";
-inform(name=$X,type=$U,$Y=$O,$Z=$P,$W=$R,$Q=$T,$G=$H,$B=$D,$F=$C,$I=$J) : "$X is a nice $U, %$Y_inf($O), %$Z_inf($P), %$W_inf($R), %$Q_inf($T), %$G_inf($H) %$B_inf($D) %$C_inf($F) and %$I_inf($J).";
+inform(name=$X,type=$U) : "$X is a $U.";
+inform(name=$X,type=$U,$Y=$O) : "$X is a $U that %$Y_inf($O).";
+inform(name=$X,type=$U,$Y=$O,$Z=$P) : "$X is a $U that %$Y_inf($O) and %$Z_inf($P).";
+inform(name=$X,type=$U,$Y=$O,$Z=$P,$W=$R) : "$X is a $U that %$Y_inf($O), %$Z_inf($P) and %$W_inf($R).";
+inform(name=$X,type=$U,$Y=$O,$Z=$P,$W=$R,$Q=$T) : "$X is a $U that %$Y_inf($O), %$Z_inf($P), %$W_inf($R) and %$Q_inf($T).";
+inform(name=$X,type=$U,$Y=$O,$Z=$P,$W=$R,$Q=$T,$G=$H) : "$X is a $U that %$Y_inf($O), %$Z_inf($P), %$W_inf($R), %$Q_inf($T) and %$G_inf($H).";
+inform(name=$X,type=$U,$Y=$O,$Z=$P,$W=$R,$Q=$T,$G=$H,$B=$D) : "$X is a $U that %$Y_inf($O), %$Z_inf($P), %$W_inf($R), %$Q_inf($T), %$G_inf($H) and %$B_inf($D).";
+inform(name=$X,type=$U,$Y=$O,$Z=$P,$W=$R,$Q=$T,$G=$H,$B=$D,$F=$C) : "$X is a $U that %$Y_inf($O), %$Z_inf($P), %$W_inf($R), %$Q_inf($T), %$G_inf($H) %$B_inf($D) and %$C_inf($F).";
+inform(name=$X,type=$U,$Y=$O,$Z=$P,$W=$R,$Q=$T,$G=$H,$B=$D,$F=$C,$I=$J) : "$X is a $U that %$Y_inf($O), %$Z_inf($P), %$W_inf($R), %$Q_inf($T), %$G_inf($H) %$B_inf($D) %$C_inf($F) and %$I_inf($J).";
 
-inform(name=$X,$Y=$O) : "$X is a nice place %$Y_inf($O).";
-inform(name=$X,$Y=$O,$Z=$P) : "$X is a nice place, %$Y_inf($O) and %$Z_inf($P).";
-inform(name=$X,$Y=$O,$Z=$P,$W=$R) : "$X is a nice place, %$Y_inf($O), %$Z_inf($P) and %$W_inf($R).";
-inform(name=$X,$Y=$O,$Z=$P,$W=$R,$Q=$T) : "$X is a nice place, %$Y_inf($O), %$Z_inf($P), %$W_inf($R) and %$Q_inf($T).";
-inform(name=$X,$Y=$O,$Z=$P,$W=$R,$Q=$T,$G=$H) : "$X is a nice place, %$Y_inf($O), %$Z_inf($P), %$W_inf($R), %$Q_inf($T) and %$G_inf($H).";
-inform(name=$X,$Y=$O,$Z=$P,$W=$R,$Q=$T,$G=$H,$B=$D) : "$X is a nice place, %$Y_inf($O), %$Z_inf($P), %$W_inf($R), %$Q_inf($T), %$G_inf($H) and %$B_inf($D).";
-inform(name=$X,$Y=$O,$Z=$P,$W=$R,$Q=$T,$G=$H,$B=$D,$F=$C) : "$X is a nice place, %$Y_inf($O), %$Z_inf($P), %$W_inf($R), %$Q_inf($T), %$G_inf($H) %$B_inf($D) and %$C_inf($F).";
-inform(name=$X,$Y=$O,$Z=$P,$W=$R,$Q=$T,$G=$H,$B=$D,$F=$C,$I=$J) : "$X is a nice place, %$Y_inf($O), %$Z_inf($P), %$W_inf($R), %$Q_inf($T), %$G_inf($H) %$B_inf($D) %$C_inf($F) and %$I_inf($J).";
+inform(name=$X,$Y=$O) : "$X %$Y_inf($O).";
+inform(name=$X,$Y=$O,$Z=$P) : "$X %$Y_inf($O) and %$Z_inf($P).";
+inform(name=$X,$Y=$O,$Z=$P,$W=$R) : "$X %$Y_inf($O), %$Z_inf($P) and %$W_inf($R).";
+inform(name=$X,$Y=$O,$Z=$P,$W=$R,$Q=$T) : "$X %$Y_inf($O), %$Z_inf($P), %$W_inf($R) and %$Q_inf($T).";
+inform(name=$X,$Y=$O,$Z=$P,$W=$R,$Q=$T,$G=$H) : "$X %$Y_inf($O), %$Z_inf($P), %$W_inf($R), %$Q_inf($T) and %$G_inf($H).";
+inform(name=$X,$Y=$O,$Z=$P,$W=$R,$Q=$T,$G=$H,$B=$D) : "$X %$Y_inf($O), %$Z_inf($P), %$W_inf($R), %$Q_inf($T), %$G_inf($H) and %$B_inf($D).";
+inform(name=$X,$Y=$O,$Z=$P,$W=$R,$Q=$T,$G=$H,$B=$D,$F=$C) : "$X %$Y_inf($O), %$Z_inf($P), %$W_inf($R), %$Q_inf($T), %$G_inf($H) %$B_inf($D) and %$C_inf($F).";
+inform(name=$X,$Y=$O,$Z=$P,$W=$R,$Q=$T,$G=$H,$B=$D,$F=$C,$I=$J) : "$X %$Y_inf($O), %$Z_inf($P), %$W_inf($R), %$Q_inf($T), %$G_inf($H) %$B_inf($D) %$C_inf($F) and %$I_inf($J).";
 
 #Implicit confirmations
 
