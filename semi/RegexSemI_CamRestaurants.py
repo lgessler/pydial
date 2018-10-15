@@ -44,6 +44,18 @@ os.sys.path.insert(0,parentdir)
 from utils import ContextLogger
 logger = ContextLogger.getLogger('')
 
+from nltk.corpus import wordnet as wn
+def find_syns(word):
+    syns = wn.synsets(word.replace(" ", "_"))
+    lemmas = [lemma.name()
+              for synset in wn.synsets(word.replace(" ", "_"))
+              for lemma in synset.lemmas()]
+    return lemmas
+
+def syn_patterns(word):
+    lemmas = find_syns(word)
+    formatted_lemmas = ["|(" + x.replace(" ","\\ ") + ")" for x in lemmas]
+    return "".join(formatted_lemmas)
 
 class RegexSemI_CamRestaurants(RegexSemI.RegexSemI):
     """
@@ -97,14 +109,21 @@ class RegexSemI_CamRestaurants(RegexSemI.RegexSemI):
             self.request_regex[slot] += "|(?<!"+self.DONTCARE+")"+self.WHAT+"\ "+self.slot_vocab[slot]
 
         # FIXME:  Handcrafted extra rules as required on a slot to slot basis:
-        self.request_regex["pricerange"] += "|(how\ much\ is\ it)"
-        self.request_regex["food"] += "|(what\ (type\ of\ )*food)"
-        self.request_regex["phone"] += "|(phone(\ num(ber)*)*)"
-        self.request_regex["postcode"] += "|(postcode)|(post\ code)|(zip\ code)"
-        self.request_regex["addr"] += "|(address)"
-        self.request_regex["signature"] += "|(signature)|(best\ dish)|(specialty)|(recipe)"
-        self.request_regex["dogsallowed"] += "|(dog)|(canine)|(pets?)"
-        self.request_regex["description"] += "|(description)|(more\ information)|(more\ details)|(describe)"
+        cost_templates = ["|(how\ <ADJ>\ is\ it)", "|(how\ much\ does\ it\ <COST>)"]
+        cost_patterns = "".join([cost_templates[0].replace("<ADJ>", syn) for syn in find_syns("costly")]
+                                + [cost_templates[0].replace("<ADJ>", syn) for syn in find_syns("cheap")]
+                                + [cost_templates[1].replace("<COST>", syn) for syn in find_syns("cost")])
+        self.request_regex["pricerange"] += "|(how\ much\ is\ it)" + cost_patterns
+
+        food_template = "|(what\ (type\ of\ )*<>)"
+        food_patterns = "".join([food_template.replace("<>",syn) for syn in find_syns("food")])
+        self.request_regex["food"] += "|(what\ (type\ of\ )*food)" + food_patterns
+        self.request_regex["phone"] += "|(phone(\ num(ber)*)*)" + syn_patterns("phone number") + "|(digits)"
+        self.request_regex["postcode"] += "|(postcode)|(post\ code)|(zip\ code)" + syn_patterns("postcode")
+        self.request_regex["addr"] += "|(address)" + syn_patterns("address")
+        self.request_regex["signature"] += "|(signature)|(best\ dish)|(specialty)|(recipe)" + syn_patterns("specialty")
+        self.request_regex["dogsallowed"] += "|(dog)|(canine)|(pets?)" + syn_patterns("dog")
+        self.request_regex["description"] += "|(description)|(more\ information)|(more\ details)|(describe)" + syn_patterns("describe") + syn_patterns("description")
 
     def _set_inform_regex(self):
         """
