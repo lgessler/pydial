@@ -1,0 +1,50 @@
+INFO   :: 18:54:15: root                       FlatOntologyManager.py <_set_ontology>93 :  Loading ontology: ontology/ontologies/CamRestaurants-rules.json
+INFO   :: 18:54:15: root                            FlatOntologyManager.py <_set_db>109 :  Loading database: ontology/ontologies/CamRestaurants-dbase.db
+INFO   :: 18:54:15: root                       FlatOntologyManager.py <_set_ontology>93 :  Loading ontology: ontology/ontologies/CamHotels-rules.json
+INFO   :: 18:54:15: root                            FlatOntologyManager.py <_set_db>109 :  Loading database: ontology/ontologies/CamHotels-dbase.db
+INFO   :: 18:54:15: root                                         pydial <initialise>373 :  Seed = 45319863
+INFO   :: 18:54:15: root                                         pydial <initialise>374 :  Root = /Users/Mitchell/Documents/GitHub/pydial
+DIAL   :: 18:54:15: root                                      pydial <chat_command>1125 :  *** Chatting with policies ['CamRestaurants', 'CamHotels']: ***
+INFO   :: 18:54:15: root                                    Agent.py <_hand_control>454 :  Launching Dialogue Manager for domain: topicmanager
+WARNING:: 18:54:15: root                                      RegexSemI.py <__init__>80 :  No rTYPE regex has been set.
+WARNING:: 18:54:15: root                                      RegexSemI.py <__init__>80 :  No rTYPE regex has been set.
+WARNING:: 18:54:15: root                                      RegexSemI.py <__init__>80 :  No rTYPE regex has been set.
+WARNING:: 18:54:15: root                                      RegexSemI.py <__init__>80 :  No rTYPE regex has been set.
+WARNING:: 18:54:15: root                                      RegexSemI.py <__init__>80 :  No rTYPE regex has been set.
+WARNING:: 18:54:15: root                                      RegexSemI.py <__init__>80 :  No rTYPE regex has been set.
+WARNING:: 18:54:15: root                                      RegexSemI.py <__init__>80 :  No rTYPE regex has been set.
+WARNING:: 18:54:15: root                                      RegexSemI.py <__init__>80 :  No rTYPE regex has been set.
+WARNING:: 18:54:15: root                                      RegexSemI.py <__init__>80 :  No rTYPE regex has been set.
+WARNING:: 18:54:15: root                                      RegexSemI.py <__init__>80 :  No rTYPE regex has been set.
+WARNING:: 18:54:15: root                                      RegexSemI.py <__init__>80 :  No rTYPE regex has been set.
+WARNING:: 18:54:15: root                                      RegexSemI.py <__init__>80 :  No rTYPE regex has been set.
+WARNING:: 18:54:21: root                     PolicyManager.py <_load_domains_policy>229 :  No policy section specified for domain: topicmanager - defaulting to HDC
+WARNING:: 18:54:21: root                                             Texthub.py <run>87 :  NOTE: texthub is not using any error simulation at present.
+DIAL   :: 18:54:21: root                                       Agent.py <start_call>171 :  >> NEW DIALOGUE SESSION. Number: 1
+INFO   :: 18:54:21: root                                    Agent.py <_hand_control>471 :  Domain topicmanager is both already running and has control
+DIAL   :: 18:54:21: root                                      Agent.py <_print_turn>580 :  ** Turn 0 **
+DIAL   :: 18:54:21: root                                   Agent.py <_print_sys_act>595 :  | Sys > hello()
+DIAL   :: 18:54:21: root                                     Agent.py <_agents_semo>680 :  Domain with CONTROL: topicmanager
+DIAL   :: 18:54:28: root                                    Agent.py <continue_call>233 :  user input: [('author', 1.0)]
+DIAL   :: 18:54:28: root                                      Agent.py <_print_turn>580 :  ** Turn 1 **
+INFO   :: 18:54:28: root                              TopicTracking.py <track_topic>146 :  After user_act - domain is now: topicmanager
+INFO   :: 18:54:28: root                                    Agent.py <_hand_control>471 :  Domain topicmanager is both already running and has control
+INFO   :: 18:54:28: root                                            SemI.py <decode>197 :  [('', 1.0)]
+INFO   :: 18:54:28: root               SemIContextUtils.py <_add_context_to_user_act>61 :  Possibly adding context to user semi hyps: [('', 1.0)]
+INFO   :: 18:54:28: root         ModularSemanticBeliefTracker.p <update_belief_state>86 :  SemI   > [('', 1.0)]
+DIAL   :: 18:54:28: root                                   Agent.py <_print_sys_act>595 :  | Sys > hello(help)
+DIAL   :: 18:54:28: root                                     Agent.py <_agents_semo>680 :  Domain with CONTROL: topicmanager
+ERROR  :: 18:54:35: root                              ContextLogger.py <_exceptHook>263 :  Uncaught exception: <type 'exceptions.EOFError'>(  )
+          Traceback (most recent call last):
+            File "/usr/local/bin/pydial", line 1142, in <module>
+              run()
+            File "/Users/Mitchell/anaconda/envs/py27/lib/python2.7/site-packages/scriptine/command.py", line 196, in autocmds
+              add_verbosity_option=add_verbosity_option)
+            File "/Users/Mitchell/anaconda/envs/py27/lib/python2.7/site-packages/scriptine/command.py", line 105, in parse_and_run_function
+              return function(*args[:len(required_args)], **kw)
+            File "/usr/local/bin/pydial", line 1129, in chat_command
+              hub.run()
+            File "/Users/Mitchell/pydial/Texthub.py", line 92, in run
+              obs = raw_input('User   > ')
+          EOFError
+          
