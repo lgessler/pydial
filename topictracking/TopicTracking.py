@@ -78,6 +78,9 @@ class TopicTrackingManager(object):
         self.USE_SINGLE_DOMAIN = False
         if Settings.config.has_option("GENERAL","singledomain"):
             self.USE_SINGLE_DOMAIN = Settings.config.getboolean("GENERAL","singledomain")
+        elif Settings.config.has_option("GENERAL","isSingleDomain"):
+            self.USE_SINGLE_DOMAIN = Settings.config.getboolean("GENERAL","isSingleDomain")
+
         if self.USE_SINGLE_DOMAIN:
             # will now be restricted to a single doman system:
             # Below Settings.config.get is safe -- all hubs have already checked config has this section
