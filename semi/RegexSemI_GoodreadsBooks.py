@@ -39,16 +39,12 @@ HELPFUL: http://regexr.com
 
 import RegexSemI
 import re, os
-
 parentdir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 os.sys.path.insert(0, parentdir)
 from utils import ContextLogger
-
 logger = ContextLogger.getLogger('')
 
 from nltk.corpus import wordnet as wn
-
-
 def find_syns(word):
     syns = wn.synsets(word.replace(" ", "_"))
     lemmas = [lemma.name()
@@ -56,20 +52,19 @@ def find_syns(word):
               for lemma in synset.lemmas()]
     return lemmas
 
-
 def syn_patterns(word):
     lemmas = find_syns(word)
     formatted_lemmas = ["|(" + x.replace(" ", "\\ ") + ")" for x in lemmas]
     return "".join(formatted_lemmas)
 
 
-class RegexSemI_BookRecs(RegexSemI.RegexSemI):
+class RegexSemI_GoodreadsBooks(RegexSemI.RegexSemI):
     """
     """
 
     def __init__(self, repoIn=None):
         RegexSemI.RegexSemI.__init__(self)  # better than super() here - wont need to be changed for other domains
-        self.domainTag = "BookRecs"  # FIXME
+        self.domainTag = "GoodreadsBooks"  # FIXME
         self.create_domain_dependent_regex()
 
     def create_domain_dependent_regex(self):
@@ -86,15 +81,9 @@ class RegexSemI_BookRecs(RegexSemI.RegexSemI):
         self.slot_vocab = dict.fromkeys(self.USER_REQUESTABLE, '')
         # FIXME: define slot specific language -  for requests
         # ---------------------------------------------------------------------------------------------------
-        #self.slot_vocab["addr"] = "(address)"
-        #self.slot_vocab["pricerange"] = "(price|cost)(\ ?range)*"
-        self.slot_vocab["author"] = "(area|location)"
-        #self.slot_vocab["genre"] = "(food)"
+        self.slot_vocab["author"] = "(author|by)"
         self.slot_vocab["review"] = "(reviews?)"
-        #self.slot_vocab["about"] = "(postcode|post\ code)"
         self.slot_vocab["rating"] = "(ratings?)"
-        #self.slot_vocab["dogsallowed"] = "(dogs)"
-        #self.slot_vocab["description"] = "(description)"
         self.slot_vocab["title"] = "(name|title)"
         # ---------------------------------------------------------------------------------------------------
         # Generate regular expressions for requests:
@@ -115,24 +104,10 @@ class RegexSemI_BookRecs(RegexSemI.RegexSemI):
                 slot]
             self.request_regex[slot] += "|(?<!" + self.DONTCARE + ")" + self.WHAT + "\ " + self.slot_vocab[slot]
 
-        # FIXME:  Handcrafted extra rules as required on a slot to slot basis:
-        #cost_templates = ["|(how\ <ADJ>\ is\ it)", "|(how\ much\ does\ it\ <COST>)"]
-        #cost_patterns = "".join([cost_templates[0].replace("<ADJ>", syn) for syn in find_syns("costly")]
-        #                        + [cost_templates[0].replace("<ADJ>", syn) for syn in find_syns("cheap")]
-        #                        + [cost_templates[1].replace("<COST>", syn) for syn in find_syns("cost")])
-        #self.request_regex["pricerange"] += "|(how\ much\ is\ it)" + cost_patterns
-
-        #food_template = "|(what\ (type\ of\ )*<>)"
-        #food_patterns = "".join([food_template.replace("<>", syn) for syn in find_syns("food")])
-        #self.request_regex["food"] += "|(what\ (type\ of\ )*food)" + food_patterns
         self.request_regex["author"] += "|(authors?)|(writer)|(who\ (is\ the\ )*author)|(whats?\ the\ author)" + syn_patterns("author")
-        self.request_regex["name"] += "|(title)|(name)|(what\ (is\ book\ call(ed)" + syn_patterns("title")
-        #self.request_regex["genre"] += "|(genre)" + syn_patterns("genre")
-        self.request_regex["review"] += "|(review/s)|(commentary)" + syn_patterns("review") + + syn_patterns("opinion")
-        #self.request_regex["about"] += "|(about)|(topic)" + syn_patterns("about")
+        self.request_regex["title"] += "|(title)|(name)|(what\ (is\ book\ called))" + syn_patterns("title")
+        self.request_regex["review"] += "|(review/s)|(commentary)" + syn_patterns("review") + syn_patterns("opinion")
         self.request_regex["rating"] += "|(ratings?)" + syn_patterns("rating")
-        #self.request_regex["description"] += "|(description)|(more\ information)|(more\ details)|(describe)" + syn_patterns(
-        #    "describe") + syn_patterns("description")
 
     def _set_inform_regex(self):
         """
@@ -141,30 +116,17 @@ class RegexSemI_BookRecs(RegexSemI.RegexSemI):
         for slot in self.inform_regex.keys():
             self.inform_regex[slot] = {}
             for value in self.slot_values[slot].keys():
-                self.inform_regex[slot][value] = self.rINFORM + "\ " + self.slot_values[slot][value]
-                self.inform_regex[slot][value] += "|" + self.slot_values[slot][value] + self.WBG
-                # self.inform_regex[slot][value] += "|((what|about|which)(\ (it\'*s*|the))*)\ "+slot+"(?!\ (is\ it))"
-                self.inform_regex[slot][value] += "|(\ |^)" + self.slot_values[slot][value] + "(\ (please|and))*"
-
-                # FIXME:  Handcrafted extra rules as required on a slot to slot basis:
-                #if slot == "food":
-                    #self.inform_regex[slot][value] += "|(would\ like\ to\ eat\ (some|some\ *thing)*)\ " + \
-                    #                                  self.slot_values[slot][value]
+                self.inform_regex[slot][value] = self.rINFORM + "\ " + re.escape(self.slot_values[slot][value])
+                self.inform_regex[slot][value] += "|" + re.escape(self.slot_values[slot][value]) + self.WBG
+                self.inform_regex[slot][value] += "|(\ |^)" + re.escape(self.slot_values[slot][value]) + "(\ (please|and))*"
 
             # FIXME: value independent rules:
             nomatter = r"\ doesn\'?t matter"
-            dontcare = r"((any(\ (kind|type)(\ of)?)?)|((i\ )?(don\'?t|do\ not)\ care\ (what|which|a?bout|for))(\ (kind|type)(\ of)?)?)\ "
+            dontcare = r"(any(\ (kind|type)(\ of)?)?)|((i\ )?(don\'?t|do\ not)\ care\ (what|which|about|for))(\ (kind|type)(\ of)?)"
             if slot == "author":
                 slot_term = r"(the\ )*(author|writer)"
                 self.inform_regex[slot]['dontcare'] = dontcare + slot_term
                 self.inform_regex[slot]['dontcare'] += r"|" + slot_term + nomatter
-
-            #if slot == "genre":
-               #GENRE= r"(area|location|place|part\ of\ town)"
-                #slot_term = r"(the\ )*" + slot
-                #self.inform_regex[slot]['dontcare'] = dontcare + slot_term
-                #self.inform_regex[slot]['dontcare'] += r"|" + slot_term + nomatter
-                #self.inform_regex[slot]['dontcare'] += r"|any(\ genre)(\ is\ (fine|ok\b|good|okay))?"
 
             if slot == "rating":
                 slot_term = r"(the\ )*" + slot
@@ -244,32 +206,32 @@ class RegexSemI_BookRecs(RegexSemI.RegexSemI):
         # ---------------------------------------------------------------------------------------------------
         # TYPE:
         self.inform_type_regex = r"(book|novel|(want|looking for) book|(read|some(thing)) to read)"
-        # SLOT: area
-        slot = 'area'
-        # {u'west': '(west)', u'east': '(east)', u'north': '(north)', u'south': '(south)', u'centre': '(centre)'}
-        self.slot_values[slot]['north'] = "((the)\ )*(north|kings\ hedges|arbury|chesterton)"
-        self.slot_values[slot]['east'] = "((the)\ )*(east|castle|newnham)"
-        self.slot_values[slot]['west'] = "((the)\ )*(west|abbey|romsey|cherry hinton)"
-        self.slot_values[slot]['south'] = "((the)\ )*(south|trumpington|queen ediths|coleridge)"
-        self.slot_values[slot][
-            'centre'] = "((the)\ )*(centre|center|downtown|central|market)"  # lmr46, added rule for detecting the center
-        #         self.slot_values[slot]['dontcare'] = "any(\ )*(area|location|place|where)"
-        # SLOT: pricerange
-        slot = 'pricerange'
-        # {u'moderate': '(moderate)', u'budget': '(budget)', u'expensive': '(expensive)'}
-        self.slot_values[slot]['moderate'] = "(to\ be\ |any\ )*(moderat|moderate|moderately\ priced|mid|middle|average)"
-        self.slot_values[slot]['moderate'] += "(?!(\ )*weight)"
-        self.slot_values[slot][
-            'cheap'] = "(to\ be\ |any\ )*(budget|cheap|bargin|bargain|inexpensive|cheapest|low\ cost)"
-        self.slot_values[slot]['expensive'] = "(to\ be\ |any\ )*(expensive|expensively|dear|costly|pricey)"
-        #         self.slot_values[slot]['dontcare'] = "any\ (price|price(\ |-)*range)"
-        # SLOT: food
-        slot = "food"
-        # rely only on ontology values for now
-        self.slot_values[slot]["asian oriental"] = "(oriental|asian)"
-        self.slot_values[slot]["gastropub"] = "(gastropub|gastro pub)"
-        self.slot_values[slot]["italian"] = "(italian|pizza|pasta)"
-        self.slot_values[slot]["north american"] = "(american|USA)"
+        ## SLOT: area
+        #slot = 'area'
+        ## {u'west': '(west)', u'east': '(east)', u'north': '(north)', u'south': '(south)', u'centre': '(centre)'}
+        #self.slot_values[slot]['north'] = "((the)\ )*(north|kings\ hedges|arbury|chesterton)"
+        #self.slot_values[slot]['east'] = "((the)\ )*(east|castle|newnham)"
+        #self.slot_values[slot]['west'] = "((the)\ )*(west|abbey|romsey|cherry hinton)"
+        #self.slot_values[slot]['south'] = "((the)\ )*(south|trumpington|queen ediths|coleridge)"
+        #self.slot_values[slot][
+        #    'centre'] = "((the)\ )*(centre|center|downtown|central|market)"  # lmr46, added rule for detecting the center
+        ##         self.slot_values[slot]['dontcare'] = "any(\ )*(area|location|place|where)"
+        ## SLOT: pricerange
+        #slot = 'pricerange'
+        ## {u'moderate': '(moderate)', u'budget': '(budget)', u'expensive': '(expensive)'}
+        #self.slot_values[slot]['moderate'] = "(to\ be\ |any\ )*(moderat|moderate|moderately\ priced|mid|middle|average)"
+        #self.slot_values[slot]['moderate'] += "(?!(\ )*weight)"
+        #self.slot_values[slot][
+        #    'cheap'] = "(to\ be\ |any\ )*(budget|cheap|bargin|bargain|inexpensive|cheapest|low\ cost)"
+        #self.slot_values[slot]['expensive'] = "(to\ be\ |any\ )*(expensive|expensively|dear|costly|pricey)"
+        ##         self.slot_values[slot]['dontcare'] = "any\ (price|price(\ |-)*range)"
+        ## SLOT: food
+        #slot = "food"
+        ## rely only on ontology values for now
+        #self.slot_values[slot]["asian oriental"] = "(oriental|asian)"
+        #self.slot_values[slot]["gastropub"] = "(gastropub|gastro pub)"
+        #self.slot_values[slot]["italian"] = "(italian|pizza|pasta)"
+        #self.slot_values[slot]["north american"] = "(american|USA)"
 
         # ---------------------------------------------------------------------------------------------------
 
