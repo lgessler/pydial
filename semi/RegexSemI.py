@@ -93,7 +93,7 @@ class RegexSemI(SemI):
         self.slot_values = dict.fromkeys(self.USER_INFORMABLE)
         for slot in self.slot_values.keys():
             slot_values = Ontology.global_ontology.get_informable_slot_values(dstring, slot)
-            self.slot_values[slot] = {value:"("+str(value)+")" for value in slot_values}
+            self.slot_values[slot] = {value:"("+value.encode('utf-8')+")" for value in slot_values}
 
     # Optional arguments sys_act and turn here, needed only by DLSemI
     def decode(self, obs, sys_act=None, turn=None):
