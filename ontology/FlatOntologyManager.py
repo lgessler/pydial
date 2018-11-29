@@ -270,7 +270,8 @@ class FlatDomainOntology(object):
             return discriminable
         else:
             discriminating_slots = list(self.informable_slots)
-            discriminating_slots.remove('name')
+            if 'name' in discriminating_slots:
+                discriminating_slots.remove('name')
             if 'price' in discriminating_slots: #TODO: ic340 why is price in informable slots (SFR)?
                 discriminating_slots.remove('price')
             for slot in discriminating_slots:
